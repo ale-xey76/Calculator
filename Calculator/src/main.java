@@ -1,10 +1,7 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
-public class calc{
-    public static void main (String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.print("Введите выражение: ");
-        String strline = in.nextLine().replaceAll("\\s+", "");
+public class main{
+    public static String calc(String input){
         String ret = "";
         short arab = 2;
         short rome = 2;
@@ -16,13 +13,13 @@ public class calc{
         String tar2 = "^[IVXLCDM]+";
         int [] arrArab = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
         String [] arrRome = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
-        String [] arr = strline.split("[\\+\\-\\*\\/]");
+        String [] arr = input.split("[\\+\\-\\*\\/]");
         try {
-            if (strline.length() < 2) throw new Exception("строка не является математическим выражением");
+            if (input.length() < 2) throw new Exception("строка не является математическим выражением");
             if (arr.length > 2 || arr.length < 2) throw new Exception("формат математического выражения не удовлетворяет заданию");
         }
-        catch (Exception except) { System.out.println(except.getMessage()); return;}
-        String mo = strline.replaceFirst(arr[0], "").replaceFirst(arr[1], "");
+        catch (Exception except) { System.out.println(except.getMessage()); System.exit(1);}
+        String mo = input.replaceFirst(arr[0], "").replaceFirst(arr[1], "");
         if(!Pattern.matches(tar1, arr[0])){
             if(!Pattern.matches(tar2, arr[0]))   {}
             else {
@@ -66,7 +63,7 @@ public class calc{
             if(first > 10 || first < 1) throw new Exception("incorrect value1");
             if(second > 10 || second < 1) throw new Exception("incorrect value2");
         }
-        catch (Exception except) { System.out.println(except.getMessage()); return;}
+        catch (Exception except) { System.out.println(except.getMessage()); System.exit(1);}
         switch (mo) {
             case ("+"): {
                 result = (int) ((first) + (second));
@@ -99,9 +96,15 @@ public class calc{
                     }
                 }
             }
-            catch (Exception except) { System.out.println(except.getMessage()); return;}
+            catch (Exception except) { System.out.println(except.getMessage()); System.exit(1);}
         }
         else ret += result;
-        System.out.println(ret);
+        return ret;
+    }
+    public static void main (String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите выражение: ");
+        String strline = in.nextLine().replaceAll("\\s+", "");
+        System.out.println(calc(strline));
     }
 }
